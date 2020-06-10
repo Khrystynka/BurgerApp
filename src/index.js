@@ -5,10 +5,19 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import reducer from "./store/reducer";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import burgerBuilderReducer from "./store/reducers/burgerBuilder";
+// this adds middleware so that we can do async action creators through redux
+import thunk from "redux-thunk";
+//from redux-thunk git hub page instructions
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// this is react devtools install instruction
+// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
-const store = createStore(reducer);
+const store = createStore(
+  burgerBuilderReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 const app = (
   <Provider store={store}>
     <BrowserRouter>
