@@ -8,7 +8,7 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner.js";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
-import * as burgerBuilderActions from "../../store/actions/index";
+import * as actions from "../../store/actions/index";
 
 class BurgerBuilder extends Component {
   // constructor(props){
@@ -20,7 +20,6 @@ class BurgerBuilder extends Component {
     purchasing: false,
   };
   componentDidMount() {
-    console.log("im mounting");
     this.props.onInitIngredients();
     // axios
     //   .get("https://react-burger-dc4f9.firebaseio.com/ingredients.json")
@@ -50,6 +49,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
+    this.props.onPurchaseInit();
     this.props.history.push("/checkout");
     // const queryParams = [];
     // for (let entry in this.state.ingredients) {
@@ -159,9 +159,9 @@ class BurgerBuilder extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
-    price: state.price,
-    error: state.error,
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.price,
+    error: state.burgerBuilder.error,
   };
 };
 
@@ -178,10 +178,11 @@ const mapDispatchToProps = (dispatch) => {
     //     ingredientName: ingredient,
     //   }),
     onIngredientAdded: (ingredient) =>
-      dispatch(burgerBuilderActions.addIngredient(ingredient)),
+      dispatch(actions.addIngredient(ingredient)),
     onIngredientRemoved: (ingredient) =>
-      dispatch(burgerBuilderActions.removeIngredient(ingredient)),
-    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
+      dispatch(actions.removeIngredient(ingredient)),
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onPurchaseInit: () => dispatch(actions.purshaseInit()),
   };
 };
 export default connect(

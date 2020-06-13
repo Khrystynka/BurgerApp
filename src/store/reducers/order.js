@@ -1,48 +1,40 @@
 import * as actionTypes from "../actions/actionTypes";
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 2,
-  meat: 6,
-  bacon: 1.75,
-  tomato: 2,
+const initialState = {
+  orders: [],
+  loading: false,
+  purchased: false,
 };
 
-const initialState = {
-  ingredients: {
-    salad: 0,
-    cheese: 0,
-    meat: 1,
-    bacon: 0,
-    tomato: 0,
-  },
-  price: 4,
-};
 const reducer = (state = initialState, action) => {
-  console.log("reducer state", state);
   switch (action.type) {
-    case actionTypes.ADD_INGREDIENT: {
+    case actionTypes.PURCHASE_INIT:
       return {
         ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
-        },
-        price: state.price + INGREDIENT_PRICES[action.ingredientName],
+        purchased: false,
       };
-    }
-    case actionTypes.REMOVE_INGREDIENT: {
+    case actionTypes.PURCHASE_BURGER_START:
       return {
         ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
-        },
-        price: state.price - INGREDIENT_PRICES[action.ingredientName],
+        loading: true,
       };
-    }
+    case actionTypes.PURCHASE_BURGER_SUCCESS:
+      const newOrder = {
+        ...action.orderData,
+        id: action.orderId,
+      };
+      return {
+        ...state,
+        loading: false,
+        orders: state.orders.concat(newOrder),
+        purchased: true,
+      };
+    case actionTypes.PURCHASE_BURGER_FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }
 };
-
 export default reducer;
