@@ -110,7 +110,7 @@ class ContactData extends Component {
       orderData: formData,
     };
 
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
 
   inputChangedHandler = (event, inputIdentifier) => {
@@ -118,20 +118,17 @@ class ContactData extends Component {
     const updatedOrderForm = {
       ...this.state.orderForm,
     };
-    console.log("will be updated order form", updatedOrderForm);
     //  this provides deep copy of part of object we want to update
     const updatedFormElement = {
       ...updatedOrderForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
-    console.log("updated form element", updatedFormElement);
     updatedFormElement.valid = this.checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation
     );
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
-    console.log(updatedOrderForm);
     let formIsValid = true;
     for (let inputId in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputId].valid && formIsValid;
@@ -146,7 +143,6 @@ class ContactData extends Component {
         config: this.state.orderForm[key],
       });
     }
-    console.log("formArray", formElementsArray);
 
     let form = (
       <form onSubmit={this.orderHandler}>
@@ -202,11 +198,13 @@ const mapStateToProps = (state) => {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.price,
     loading: state.order.loading,
+    token: state.auth.token,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+    onOrderBurger: (orderData, token) =>
+      dispatch(actions.purchaseBurger(orderData, token)),
   };
 };
 

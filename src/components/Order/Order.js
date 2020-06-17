@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./Order.css";
 const order = (props) => {
-  console.log(props.ingredients);
   const ingredients = [];
   let ingredientsOutput = "";
   for (let item in props.ingredients) {
@@ -26,7 +25,6 @@ const order = (props) => {
       </span>
     );
   });
-  console.log(ingredientsOutput);
   return (
     <div className={classes.Order}>
       <p>Ingredients: {ingredientsOutput}</p>

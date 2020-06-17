@@ -39,7 +39,6 @@ class Checkout extends Component {
   render() {
     let summary = <Redirect to="/" />;
     if (this.props.ingredients) {
-      console.log("Purchased?", this.props.purchased);
       const purchasedRedirect = this.props.purchased ? (
         <Redirect to="/" />
       ) : null;
@@ -65,7 +64,6 @@ class Checkout extends Component {
         </div>
       );
     }
-    console.log("IMPORTANT", summary, this.props.ingredients);
     return summary;
   }
 }
