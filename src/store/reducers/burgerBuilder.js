@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
-import { fetchedIngredientsFailed } from "../actions/burgerBuilder";
+// import { fetchedIngredientsFailed } from "../actions/burgerBuilder";
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 2,
@@ -13,6 +13,7 @@ const initialState = {
   ingredients: null,
   price: 4,
   error: false,
+  building: false,
 };
 const addIngredient = (state, action) => {
   const updatedIngredient = {
@@ -22,6 +23,7 @@ const addIngredient = (state, action) => {
   const updatedState = {
     ingredients: updatedIngredients,
     price: state.price + INGREDIENT_PRICES[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedState);
 };
@@ -35,6 +37,7 @@ const removeIngredient = (state, action) => {
   const updatedState = {
     ingredients: updatedIngredients,
     price: state.price - INGREDIENT_PRICES[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedState);
 };
@@ -44,10 +47,11 @@ const setIngredients = (state, action) => {
     ingredients: action.ingredients,
     error: false,
     price: 4,
+    building: false,
   });
 };
 const fetchIngredientsFail = (state, action) => {
-  return updateObject(state, { error: true });
+  return updateObject(state, { error: true, building: false });
 };
 
 const reducer = (state = initialState, action) => {
@@ -59,7 +63,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_INGREDIENTS:
       return setIngredients(state, action);
     case actionTypes.FETCH_INGREDIENTS_FAILED:
-      return fetchedIngredientsFailed(state, action);
+      return fetchIngredientsFail(state, action);
     default:
       return state;
   }
