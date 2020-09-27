@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/Burgerbuilder/BurgerBuilder.js";
 import Checkout from "./containers/Checkout/Checkout";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import Auth from "./containers/Auth/Auth";
 import Orders from "./containers/Orders/Orders";
 import Logout from "./containers/Auth/Logout/Logout";
@@ -17,17 +17,21 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path="/auth" exact component={Auth} />
-        <Route path="/" component={BurgerBuilder} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to="/" />
       </Switch>
     );
 
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
+          <Route path="/auth" exact component={Auth} />
+
           <Route path="/checkout" component={Checkout} />
           <Route path="/orders" exact component={Orders} />
           <Route path="/logout" exact component={Logout} />
-          <Route path="/" component={BurgerBuilder} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Redirect to="/" />
         </Switch>
       );
     }

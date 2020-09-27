@@ -23,7 +23,7 @@ class Orders extends Component {
     //   .catch((err) => {
     //     this.setState({ loading: false });
     //   });
-    this.props.onFetchOrders(this.props.token);
+    this.props.onFetchOrders(this.props.token, this.props.userId);
   };
   render() {
     let orders = <Spinner />;
@@ -53,12 +53,14 @@ const mapStateToProps = (state) => {
     loadingOrders: state.order.loading,
     error: state.order.error,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: (token) => dispatch(actionTypes.fetchOrders(token)),
+    onFetchOrders: (token, userId) =>
+      dispatch(actionTypes.fetchOrders(token, userId)),
   };
 };
 

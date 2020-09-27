@@ -38,7 +38,10 @@ class Auth extends Component {
     if (!this.props.building && this.props.authRedirectPath !== "/") {
       this.props.onSetAuthRedirectPath("/");
     }
-    console.log("redirect path after mounting", this.props.authRedirectPath);
+    console.log(
+      "redirect path after mounting AUTH component",
+      this.props.authRedirectPath
+    );
   }
 
   checkValidity = (value, rules) => {
@@ -121,9 +124,12 @@ class Auth extends Component {
       // error message provided by firebase DB
       errorMessage = <p class={classes.Error}>{this.props.error.message}</p>;
     }
+    console.log("token", this.props.token);
+
     console.log("Authenticated?", this.props.isAuthenticated);
     let authRedirect = null;
     if (this.props.isAuthenticated) {
+      console.log("Im redirecting to ", this.props.authRedirectPath);
       authRedirect = <Redirect to={this.props.authRedirectPath} />;
       console.log("redir to here onject", this.props.authRedirectPath);
     }

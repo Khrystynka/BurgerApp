@@ -26,10 +26,6 @@ const buildControls = (props) => {
           ></BuildControl>
         );
       })}
-      <div className={classes.AddRemBtn}>
-        <button onClick={props.addAll}>ADD ALL!</button>
-        <button onClick={props.removeAll}>REMOVE ALL!</button>
-      </div>
 
       <button
         className={classes.OrderButton}

@@ -23,6 +23,7 @@ export const purchaseBurgerStart = () => {
 
 // async action creators
 export const purchaseBurger = (orderData, token) => {
+  console.log("order data", orderData);
   return (dispatch) => {
     dispatch(purchaseBurgerStart());
     axios
@@ -64,13 +65,14 @@ export const fetchDataFailed = (error) => {
   };
 };
 //async action creator using redux-thunk
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
   return (dispatch) => {
     dispatch(fetchDataStart());
-
+    let queryparams =
+      "?auth=" + token + '&orderBy="userID"&equalTo="' + userId + '"';
     axios
       //   .get("/orders.json")
-      .get("/orders.json?auth=" + token)
+      .get("/orders.json" + queryparams)
 
       .then((res) => {
         const fetchedOrders = [];
